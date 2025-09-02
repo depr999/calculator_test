@@ -33,3 +33,11 @@ add_subdirectory(src)
 
 # Установка целевых файлов
 install(TARGETS Calculator DESTINATION bin)
+
+# Включение тестов
+enable_testing()
+
+# Добавление тестов
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tests AND IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests)
+    add_subdirectory(tests)
+endif()

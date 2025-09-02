@@ -155,3 +155,59 @@ double Calculator::calculate(double operand1, double operand2, const QString &op
     if (operation == "/") return operand2 != 0 ? operand1 / operand2 : 0;
     return operand2;
 }
+
+// МЕТОДЫ ДЛЯ ТЕСТИРОВАНИЯ - ДОБАВЬТЕ ЭТО В КОНЕЦ ФАЙЛА:
+
+/**
+ * @brief Симуляция нажатия цифры для тестов
+ * @param digit Цифра от 0 до 9
+ */
+void Calculator::digitPressed(int digit)
+{
+    if (waitingForOperand) {
+        currentValue = digit;
+        waitingForOperand = false;
+    } else {
+        currentValue = currentValue * 10 + digit;
+    }
+    updateDisplay();
+}
+
+/**
+ * @brief Установка операции для тестов
+ * @param operation Символ операции (+, -, *, /)
+ */
+void Calculator::setOperation(const QString& operation)
+{
+    if (!currentOperation.isEmpty() && !waitingForOperand) {
+        calculateResult();
+    }
+    storedValue = currentValue;
+    currentOperation = operation;
+    waitingForOperand = true;
+}
+
+/**
+ * @brief Вычисление результата для тестов
+ */
+void Calculator::calculateResult()
+{
+    if (currentOperation.isEmpty() || waitingForOperand) return;
+    
+    currentValue = calculate(storedValue, currentValue, currentOperation);
+    currentOperation = "";
+    waitingForOperand = true;
+    updateDisplay();
+}
+
+/**
+ * @brief Очистка калькулятора для тестов
+ */
+void Calculator::clear()
+{
+    currentValue = 0;
+    storedValue = 0;
+    currentOperation = "";
+    waitingForOperand = true;
+    updateDisplay();
+}
