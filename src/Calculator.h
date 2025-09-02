@@ -68,7 +68,7 @@ private:
     void updateDisplay();
     
     /**
-     * @brief Сброс калькулятора в初始状态
+     * @brief Сброс калькулятора 
      */
     void reset();
     

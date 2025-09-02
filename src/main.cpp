@@ -4,14 +4,14 @@
 /**
  * @mainpage Calculator Application
  * @brief Простой калькулятор на Qt
- * 
+
  * Это тестовое приложение для изучения:
  * - Qt framework
  * - CMake сборки
  * - Doxygen документации
  * 
- * @author Ваше Имя
- * @version 1.0
+ * @author Zhekabaunty
+ * @version 2.0
  */
 
 /**
