@@ -1,0 +1,10 @@
+PROJECT_NAME           = "Calculator"
+PROJECT_BRIEF          = "A simple calculator built with Qt and CMake"
+OUTPUT_DIRECTORY       = docs/output
+INPUT                  = src include
+RECURSIVE              = YES
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+GENERATE_LATEX         = NO
+GENERATE_HTML          = YES
