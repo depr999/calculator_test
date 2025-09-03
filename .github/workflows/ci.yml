@@ -39,20 +39,21 @@ jobs:
           clang-format \
           clang
 
-    # 3. Собираем проект
+   # 3. Собираем проект
     - name: Configure and Build
       run: |
         mkdir -p build
         cd build
-        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCATCH2_DIR=/home/depress/Catch2/build ..
+        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_PREFIX_PATH=/home/depress/Catch2/build ..
+        echo "CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH"  # Печать переменной
+        cmake ..
         make -j4
-        ls -la src/
 
     # 4. Запускаем тесты
     - name: Run Tests
       run: |
         cd build
-        ./tests/CalculatorLogicTests --success  # Проверь, что путь верный
+        ./tests/CalculatorLogicTests --success
 
     # 5. Генерируем документацию
     - name: Generate Documentation
