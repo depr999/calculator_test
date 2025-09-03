@@ -13,7 +13,7 @@ target_include_directories(CalculatorLogicTests PRIVATE
 target_link_libraries(CalculatorLogicTests PRIVATE 
     Qt6::Core
     Qt6::Widgets
-    Catch2::Catch2WithMain
+    Catch2::Catch2WithMain  # Для Catch2 v3.x.x
 )
 
 # Добавляем исходные файлы калькулятора

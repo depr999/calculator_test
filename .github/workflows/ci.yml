@@ -35,14 +35,16 @@ jobs:
           qt6-tools-dev \
           libqt6widgets6 \
           doxygen \
-          graphviz
+          graphviz \
+          clang-format \
+          clang
 
     # 3. Собираем проект
     - name: Configure and Build
       run: |
         mkdir -p build
         cd build
-        cmake -DCMAKE_BUILD_TYPE=Release ..
+        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
         make -j4
         ls -la src/
 
@@ -50,7 +52,7 @@ jobs:
     - name: Run Tests
       run: |
         cd build
-        ./tests/CalculatorLogicTests --success
+        ./tests/CalculatorLogicTests --success  # Проверь, что путь верный
 
     # 5. Генерируем документацию
     - name: Generate Documentation

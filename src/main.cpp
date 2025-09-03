@@ -1,6 +1,6 @@
 #include "Calculator.h"
 #include <QApplication>
-
+//Ok 
 /**
  * @mainpage Qt Calculator Documentation
  * @brief Документация калькулятора на Qt

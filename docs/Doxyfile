@@ -1,20 +1,29 @@
-PROJECT_NAME           = "Calculator Test"
+PROJECT_NAME           = "Qt Calculator"
 PROJECT_NUMBER         = 1.0
 PROJECT_BRIEF          = "A simple calculator built with Qt and CMake"
 OUTPUT_DIRECTORY       = docs/output
-INPUT                  = src include
-RECURSIVE              = YES
+
 EXTRACT_ALL            = YES
 EXTRACT_PRIVATE        = YES
 EXTRACT_STATIC         = YES
-GENERATE_LATEX         = NO
+RECURSIVE              = YES
+
+INPUT                  = ./src
+FILE_PATTERNS          = *.cpp *.h *.hpp
+
+SOURCE_BROWSER         = YES
+REFERENCED_BY_RELATION = YES
+REFERENCES_RELATION    = YES
+
 GENERATE_HTML          = YES
 HTML_OUTPUT            = html
-GENERATE_TREEVIEW      = YES
-DISABLE_INDEX          = NO
-ENABLE_PREPROCESSING   = YES
-MACRO_EXPANSION        = YES
-EXPAND_ONLY_PREDEF     = YES
-SEARCHENGINE           = YES
-SOURCE_BROWSER         = YES
-REFERENCES_LINK        = YES
+
+GENERATE_LATEX         = YES
+LATEX_OUTPUT           = latex
+USE_PDFLATEX           = YES
+PDF_HYPERLINKS         = YES
+EXTRA_PACKAGES         = graphicx, hyperref, geometry, fancyhdr
+LATEX_HEADER = ./docs/my_header.tex
+
+LATEX_ALTERNATIVE=true   # Использование альтернативных макросов LaTeX для документации
+EXCLUDE_SYMBOLS = \cyrillictext, \doxysubsection, \hypertarget

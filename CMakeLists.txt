@@ -28,11 +28,17 @@ else()
     message(WARNING "Doxygen not found: documentation will not be generated")
 endif()
 
+# Используем FetchContent для автоматической загрузки Catch2
+include(FetchContent)
+FetchContent_Declare(
+  Catch2
+  GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+  GIT_TAG v3.4.0  # Указываем стабильную версию
+)
+FetchContent_MakeAvailable(Catch2)
+
 # Добавление подкаталогов
 add_subdirectory(src)
-
-# Установка целевых файлов
-install(TARGETS Calculator DESTINATION bin)
 
 # Включение тестов
 enable_testing()
@@ -41,3 +47,6 @@ enable_testing()
 if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tests AND IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests)
     add_subdirectory(tests)
 endif()
+
+# Установка целевых файлов
+install(TARGETS Calculator DESTINATION bin)
