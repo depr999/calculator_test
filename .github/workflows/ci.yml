@@ -1,13 +1,11 @@
 name: CI - Build, Test and Generate Docs
 
-# Когда запускать workflow
 on:
   push:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
 
-# Разрешаем отменять текущий workflow если пришел новый commit
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -18,13 +16,11 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    # 1. Клонируем репозиторий
     - name: Checkout code
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
-    # 2. Устанавливаем зависимости
     - name: Install dependencies
       run: |
         sudo apt-get update
@@ -39,29 +35,23 @@ jobs:
           clang-format \
           clang
 
-   # 3. Собираем проект
     - name: Configure and Build
       run: |
         mkdir -p build
         cd build
-        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_PREFIX_PATH=/home/depress/Catch2/build ..
-        echo "CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH"  # Печать переменной
-        cmake ..
+        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
         make -j4
 
-    # 4. Запускаем тесты
     - name: Run Tests
       run: |
         cd build
-        ./tests/CalculatorLogicTests --success
+        ./tests/CalculatorLogicTests --success  # Проверь, что путь верный
 
-    # 5. Генерируем документацию
     - name: Generate Documentation
       run: |
         doxygen docs/Doxyfile
         ls -la docs/output/html/
 
-    # 6. Сохраняем собранную программу как артефакт
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v4
       with:
@@ -70,7 +60,6 @@ jobs:
           build/src/Calculator
         retention-days: 7
 
-    # 7. Сохраняем документацию как артефакт
     - name: Upload Documentation
       uses: actions/upload-artifact@v4
       with:
@@ -79,7 +68,6 @@ jobs:
         retention-days: 7
         if-no-files-found: warn
 
-  # Второй job для проверки на разных компиляторах
   build-clang:
     name: Build with Clang
     runs-on: ubuntu-latest
@@ -103,7 +91,6 @@ jobs:
         cmake ..
         make -j4
 
-  # Job для проверки стиля кода
   code-quality:
     name: Code Quality Check
     runs-on: ubuntu-latest

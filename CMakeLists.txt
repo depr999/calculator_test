@@ -4,7 +4,6 @@ project(CalculatorTest VERSION 1.0.0 LANGUAGES CXX)
 # Настройка стандарта C++
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CATCH2_DIR "/home/depress/Catch2/build")
 
 # Поиск Qt6
 find_package(Qt6 REQUIRED COMPONENTS Core Widgets)
@@ -17,7 +16,6 @@ set(CMAKE_AUTORCC ON)
 # Поиск Doxygen
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
-    # Создаем цель для документации
     add_custom_target(docs
         COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_SOURCE_DIR}/docs/Doxyfile
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
@@ -43,8 +41,6 @@ add_subdirectory(src)
 
 # Включение тестов
 enable_testing()
-
-# Добавление тестов
 if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tests AND IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests)
     add_subdirectory(tests)
 endif()
