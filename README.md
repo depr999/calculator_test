@@ -26,4 +26,7 @@ cmake .. && make
 ./src/Calculator
 
 # Run tests
+
 ./tests/CalculatorLogicTests
+
+# Я тут был
