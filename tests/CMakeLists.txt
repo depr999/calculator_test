@@ -1,4 +1,5 @@
 # Находим Catch2
+set(CATCH2_DIR "/home/depress/Catch2/CMake")
 find_package(Catch2 REQUIRED)
 
 # Создаем тестовый исполняемый файл для логики

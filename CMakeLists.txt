@@ -4,7 +4,7 @@ project(CalculatorTest VERSION 1.0.0 LANGUAGES CXX)
 # Настройка стандарта C++
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CATCH2_DIR "/home/depress/Catch2/CMake")
+set(CATCH2_DIR "/home/depress/Catch2/build")
 
 # Поиск Qt6
 find_package(Qt6 REQUIRED COMPONENTS Core Widgets)
