@@ -33,7 +33,8 @@ jobs:
           doxygen \
           graphviz \
           clang-format \
-          clang
+          clang \
+          xvfb  # Добавляем Xvfb, если потребуется виртуальный дисплей
 
     - name: Configure and Build
       run: |
@@ -44,6 +45,7 @@ jobs:
 
     - name: Run Tests
       run: |
+        export QT_QPA_PLATFORM=offscreen  # Устанавливаем платформу для Qt в offscreen
         cd build
         ./tests/CalculatorLogicTests --success  # Проверь, что путь верный
 
