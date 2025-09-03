@@ -18,12 +18,8 @@ REFERENCES_RELATION    = YES
 GENERATE_HTML          = YES
 HTML_OUTPUT            = html
 
-GENERATE_LATEX         = YES
+GENERATE_LATEX         = NO
 LATEX_OUTPUT           = latex
 USE_PDFLATEX           = YES
 PDF_HYPERLINKS         = YES
 EXTRA_PACKAGES         = graphicx, hyperref, geometry, fancyhdr
-LATEX_HEADER = ./docs/my_header.tex
-
-LATEX_ALTERNATIVE=true   # Использование альтернативных макросов LaTeX для документации
-EXCLUDE_SYMBOLS = \cyrillictext, \doxysubsection, \hypertarget
