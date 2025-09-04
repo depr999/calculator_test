@@ -91,26 +91,54 @@
 //     REQUIRE(calc.getStoredValue() == 0.0);
 //     REQUIRE(calc.getCurrentOperation().isEmpty());
 // }
+
+// #define CATCH_CONFIG_MAIN
+// #include <catch2/catch_test_macros.hpp>
+
+// // Мокаем Qt компоненты
+// class MockQApplication {
+// public:
+//     MockQApplication(int &argc, char **argv) {}
+//     int exec() { return 0; }
+// };
+
+// // Подменяем реальные классы на моки
+// #define QApplication MockQApplication
+// #define QMainWindow void
+
+// // Теперь подключаем наш код
+// #include "../src/CalculatorLogic.h"
+
+// // Возвращаем оригинальные имена
+// #undef QApplication
+// #undef QMainWindow
+
+// TEST_CASE("CalculatorLogic operations", "[logic]") {
+//     CalculatorLogic calc;
+    
+//     SECTION("Initial state") {
+//         REQUIRE(calc.getCurrentValue() == 0.0);
+//     }
+    
+//     SECTION("Digit input") {
+//         calc.pressDigit(5);
+//         REQUIRE(calc.getCurrentValue() == 5.0);
+//     }
+    
+//     SECTION("Addition") {
+//         calc.pressDigit(2);
+//         calc.setOperation("+");
+//         calc.pressDigit(3);
+//         double result = calc.calculateResult();
+//         REQUIRE(result == 5.0);
+//     }
+// }
+
 #define CATCH_CONFIG_MAIN
 #include <catch2/catch_test_macros.hpp>
 
-// Мокаем Qt компоненты
-class MockQApplication {
-public:
-    MockQApplication(int &argc, char **argv) {}
-    int exec() { return 0; }
-};
-
-// Подменяем реальные классы на моки
-#define QApplication MockQApplication
-#define QMainWindow void
-
-// Теперь подключаем наш код
+// Подключаем код калькулятора, без зависимости от UI
 #include "../src/CalculatorLogic.h"
-
-// Возвращаем оригинальные имена
-#undef QApplication
-#undef QMainWindow
 
 TEST_CASE("CalculatorLogic operations", "[logic]") {
     CalculatorLogic calc;

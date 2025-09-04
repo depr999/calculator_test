@@ -58,7 +58,7 @@ jobs:
       run: |
         export QT_QPA_PLATFORM=offscreen
         cd build/tests
-        ./CalculatorLogicTests --success  # Правильный путь
+        ./CalculatorLogicTests --success  # Запускаем тесты, путь к файлу
 
     - name: Generate Documentation
       run: |
