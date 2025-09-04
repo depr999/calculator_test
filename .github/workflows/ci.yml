@@ -11,66 +11,68 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-and-test:
-    name: Build and Test on Ubuntu
+  build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y \
-          build-essential \
-          cmake \
-          qt6-base-dev \
-          qt6-tools-dev \
-          libqt6widgets6 \
-          doxygen \
-          graphviz \
-          clang-format \
-          clang \
-          xvfb
+      - name: Install Qt6 dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            qt6-base-dev \
+            qt6-qmake \
+            qt6-tools-dev \
+            libqt6widgets6 \
+            libxcb1 \
+            libx11-dev \
+            libglu1-mesa \
+            doxygen \
+            graphviz
 
-    - name: Configure and Build
-      run: |
-        mkdir -p build
-        cd build
-        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
-        make -j4
+      - name: Set up Qt6 environment
+        run: |
+          export QT_QPA_PLATFORM=offscreen
+          export QT_QPA_PLATFORM_PLUGIN_PATH=/usr/lib/x86_64-linux-gnu/qt6/plugins/platforms
+          echo "QT_QPA_PLATFORM_PLUGIN_PATH=$QT_QPA_PLATFORM_PLUGIN_PATH"
 
-    - name: Run Tests
-      run: |
-        cd build/tests
-        ./CalculatorLogicTests --success  # Запуск тестов
+      - name: Build the project
+        run: |
+          mkdir -p build && cd build
+          cmake -DCMAKE_PREFIX_PATH=/usr/lib/x86_64-linux-gnu/qt6 ..
+          make
 
-    - name: Generate Documentation
-      run: |
-        doxygen docs/Doxyfile
-        ls -la docs/output/html/
+      - name: Run tests
+        run: |
+          cd build/tests
+          ./CalculatorLogicTests --success
 
-    - name: Upload Build Artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: calculator-app
-        path: |
-          build/src/Calculator
-        retention-days: 7
+      - name: Generate Documentation
+        run: |
+          doxygen docs/Doxyfile
+          ls -la docs/output/html/
 
-    - name: Upload Documentation
-      uses: actions/upload-artifact@v4
-      with:
-        name: documentation
-        path: docs/output/html/
-        retention-days: 7
-        if-no-files-found: warn
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: calculator-app
+          path: |
+            build/src/Calculator
+          retention-days: 7
+
+      - name: Upload Documentation
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation
+          path: docs/output/html/
+          retention-days: 7
+          if-no-files-found: warn
 
   build-clang:
     name: Build with Clang
     runs-on: ubuntu-latest
-    needs: build-and-test
+    needs: build  # Исправлено с build-and-test на build
     
     steps:
     - name: Checkout code
@@ -93,7 +95,7 @@ jobs:
   code-quality:
     name: Code Quality Check
     runs-on: ubuntu-latest
-    needs: build-and-test
+    needs: build  # Исправлено с build-and-test на build
     
     steps:
     - name: Checkout code
