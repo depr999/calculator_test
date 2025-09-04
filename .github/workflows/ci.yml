@@ -34,20 +34,26 @@ jobs:
           graphviz \
           clang-format \
           clang \
-          xvfb  # Добавляем Xvfb, если потребуется виртуальный дисплей
+          xvfb
+
+    - name: Start Xvfb
+      run: |
+        export DISPLAY=:99
+        Xvfb :99 -screen 0 1024x768x24 &
+        sleep 3
 
     - name: Configure and Build
       run: |
         mkdir -p build
         cd build
-        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
+        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .. 
         make -j4
 
     - name: Run Tests
       run: |
-        export QT_QPA_PLATFORM=offscreen  # Устанавливаем платформу для Qt в offscreen
+        export QT_QPA_PLATFORM=offscreen
         cd build
-        ./tests/CalculatorLogicTests --success  # Проверь, что путь верный
+        ./src/CalculatorLogicTests --success
 
     - name: Generate Documentation
       run: |
