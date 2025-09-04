@@ -29,7 +29,8 @@ jobs:
             libx11-dev \
             libglu1-mesa \
             doxygen \
-            graphviz
+            graphviz \
+            libxcb-xinerama0  # Убедитесь, что этот пакет установлен
 
       - name: Set up Qt6 environment
         run: |
