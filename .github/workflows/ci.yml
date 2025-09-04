@@ -46,14 +46,19 @@ jobs:
       run: |
         mkdir -p build
         cd build
-        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .. 
+        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
         make -j4
+        ls -la  # Проверка, что все файлы собраны
+
+    - name: List build/tests directory
+      run: |
+        ls -la build/tests  # Проверяем, что файл существует
 
     - name: Run Tests
       run: |
         export QT_QPA_PLATFORM=offscreen
-        cd build
-        ./src/CalculatorLogicTests --success
+        cd build/tests
+        ./CalculatorLogicTests --success  # Правильный путь
 
     - name: Generate Documentation
       run: |
