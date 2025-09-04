@@ -137,21 +137,36 @@
 #define CATCH_CONFIG_MAIN
 #include <catch2/catch_test_macros.hpp>
 
-// Подключаем код калькулятора, без зависимости от UI
+// Мокаем класс QApplication, чтобы не создавать графику
+class MockQApplication {
+public:
+    MockQApplication(int &argc, char **argv) {}
+    int exec() { return 0; }
+};
+
+// Подменяем реальный QApplication на наш мок
+#define QApplication MockQApplication
+#define QMainWindow void
+
+// Теперь подключаем код, который будем тестировать
 #include "../src/CalculatorLogic.h"
+
+// Возвращаем оригинальные имена
+#undef QApplication
+#undef QMainWindow
 
 TEST_CASE("CalculatorLogic operations", "[logic]") {
     CalculatorLogic calc;
-    
+
     SECTION("Initial state") {
         REQUIRE(calc.getCurrentValue() == 0.0);
     }
-    
+
     SECTION("Digit input") {
         calc.pressDigit(5);
         REQUIRE(calc.getCurrentValue() == 5.0);
     }
-    
+
     SECTION("Addition") {
         calc.pressDigit(2);
         calc.setOperation("+");
@@ -160,3 +175,4 @@ TEST_CASE("CalculatorLogic operations", "[logic]") {
         REQUIRE(result == 5.0);
     }
 }
+

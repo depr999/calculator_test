@@ -1,5 +1,5 @@
 #include "Calculator.h"
-#include <QApplication>
+#include <QApplication>  // Не QCoreApplication, а QApplication, так как у вас UI
 //Ok 
 /**
  * @mainpage Qt Calculator Documentation
@@ -34,7 +34,7 @@
  */
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
+    QApplication app(argc, argv);  // Используем QApplication для работы с UI
     Calculator calculator;
     calculator.setWindowTitle("Qt Calculator");
     calculator.show();

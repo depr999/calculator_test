@@ -14,12 +14,10 @@ jobs:
   build-and-test:
     name: Build and Test on Ubuntu
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
 
     - name: Install dependencies
       run: |
@@ -36,29 +34,17 @@ jobs:
           clang \
           xvfb
 
-    - name: Start Xvfb
-      run: |
-        export DISPLAY=:99
-        Xvfb :99 -screen 0 1024x768x24 &
-        sleep 3
-
     - name: Configure and Build
       run: |
         mkdir -p build
         cd build
         cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
         make -j4
-        ls -la  # Проверка, что все файлы собраны
-
-    - name: List build/tests directory
-      run: |
-        ls -la build/tests  # Проверяем, что файл существует
 
     - name: Run Tests
       run: |
-        export QT_QPA_PLATFORM=offscreen
         cd build/tests
-        ./CalculatorLogicTests --success  # Запускаем тесты, путь к файлу
+        ./CalculatorLogicTests --success  # Запуск тестов
 
     - name: Generate Documentation
       run: |
