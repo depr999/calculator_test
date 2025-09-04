@@ -134,45 +134,38 @@
 //     }
 // }
 
-#define CATCH_CONFIG_MAIN
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
+#include "../src/Calculator.h"  // Путь к вашему исходному файлу
 
-// Мокаем класс QApplication, чтобы не создавать графику
+// Мок для QApplication
 class MockQApplication {
 public:
     MockQApplication(int &argc, char **argv) {}
     int exec() { return 0; }
 };
 
-// Подменяем реальный QApplication на наш мок
-#define QApplication MockQApplication
-#define QMainWindow void
-
-// Теперь подключаем код, который будем тестировать
-#include "../src/CalculatorLogic.h"
-
-// Возвращаем оригинальные имена
-#undef QApplication
-#undef QMainWindow
-
-TEST_CASE("CalculatorLogic operations", "[logic]") {
-    CalculatorLogic calc;
-
-    SECTION("Initial state") {
-        REQUIRE(calc.getCurrentValue() == 0.0);
-    }
-
-    SECTION("Digit input") {
-        calc.pressDigit(5);
+// Тестируем калькулятор без реального UI
+TEST_CASE("Calculator logic") {
+    Calculator calc;
+    
+    // Симулируем нажатие кнопок
+    calc.digitPressed(2);
+    calc.setOperation("+");
+    calc.digitPressed(3);
+    calc.calculateResult();
+    
+    SECTION("Addition") {
         REQUIRE(calc.getCurrentValue() == 5.0);
     }
-
-    SECTION("Addition") {
-        calc.pressDigit(2);
-        calc.setOperation("+");
-        calc.pressDigit(3);
-        double result = calc.calculateResult();
-        REQUIRE(result == 5.0);
+    
+    calc.clear();
+    calc.digitPressed(5);
+    calc.setOperation("-");
+    calc.digitPressed(3);
+    calc.calculateResult();
+    
+    SECTION("Subtraction") {
+        REQUIRE(calc.getCurrentValue() == 2.0);
     }
 }
 
